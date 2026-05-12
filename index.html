@@ -64,6 +64,116 @@
       color: #b76e3c;
     }
 
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid #dfc8b6;
+      border-radius: 12px;
+      background: #fff;
+      color: #7c4a2d;
+      font-size: 1.35rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 20, 14, 0.45);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(320px, 82vw);
+      height: 100vh;
+      background: #fffaf5;
+      border-right: 1px solid #ead9c8;
+      box-shadow: 18px 0 42px rgba(58, 38, 29, 0.18);
+      z-index: 100;
+      transform: translateX(-105%);
+      transition: 0.28s ease;
+      padding: 1.2rem;
+      overflow-y: auto;
+    }
+
+    .mobile-drawer.active {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #ead9c8;
+    }
+
+    .drawer-header strong {
+      color: #7c4a2d;
+      font-size: 1.25rem;
+      letter-spacing: 0.06em;
+    }
+
+    .drawer-header p {
+      color: #7a6254;
+      font-size: 0.9rem;
+      margin-top: 0.15rem;
+    }
+
+    .drawer-header button {
+      width: 38px;
+      height: 38px;
+      border: 1px solid #dfc8b6;
+      border-radius: 12px;
+      background: #fff;
+      color: #7c4a2d;
+      font-size: 1.55rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .drawer-menu {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .drawer-menu a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #ead9c8;
+      color: #5f3d2a;
+      font-weight: 900;
+      box-shadow: 0 8px 20px rgba(94, 62, 44, 0.06);
+    }
+
+    .drawer-menu a::after {
+      content: "›";
+      color: #b76e3c;
+      font-size: 1.3rem;
+    }
+
+    body.drawer-open {
+      overflow: hidden;
+    }
+
     .hero {
       padding: 100px 0 85px;
       background:
@@ -325,6 +435,18 @@
       overflow: hidden;
     }
 
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: 0.25s;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.04);
+    }
+
     .mini-bracelet {
       width: 138px;
       height: 138px;
@@ -515,16 +637,27 @@
 
     @media (max-width: 640px) {
       nav {
-        height: auto;
-        padding: 1rem 0;
-        align-items: flex-start;
-        flex-direction: column;
+        height: 64px;
+        padding: 0;
+        align-items: center;
+        flex-direction: row;
         gap: 0.8rem;
+        justify-content: flex-start;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .logo {
+        font-size: 1.05rem;
       }
 
       .nav-links {
-        flex-wrap: wrap;
-        gap: 0.8rem;
+        display: none;
       }
 
       .hero {
@@ -556,6 +689,7 @@
 <body>
   <header>
     <nav class="container">
+      <button class="menu-toggle" type="button" aria-label="開啟手機選單" onclick="openDrawer()">☰</button>
       <a href="#home" class="logo">LumiStone 手作晶石</a>
       <div class="nav-links">
         <a href="#products">商品</a>
@@ -565,6 +699,27 @@
       </div>
     </nav>
   </header>
+
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="手機側邊選單">
+    <div class="drawer-header">
+      <div>
+        <strong>LumiStone</strong>
+        <p>手作晶石手串</p>
+      </div>
+      <button type="button" aria-label="關閉手機選單" onclick="closeDrawer()">×</button>
+    </div>
+    <nav class="drawer-menu">
+      <a href="#products" onclick="closeDrawer()">瀏覽商品</a>
+      <a href="#contact" onclick="closeDrawer()">詢問客製</a>
+      <a href="#features" onclick="closeDrawer()">手工串製</a>
+      <a href="#features" onclick="closeDrawer()">可客製尺寸</a>
+      <a href="#features" onclick="closeDrawer()">禮盒包裝</a>
+      <a href="#features" onclick="closeDrawer()">少量製作</a>
+      <a href="#story" onclick="closeDrawer()">品牌故事</a>
+      <a href="#order" onclick="closeDrawer()">訂購方式</a>
+    </nav>
+  </aside>
 
   <main>
     <section id="home" class="hero">
@@ -645,13 +800,13 @@
         <div class="section-title">
           <span>PRODUCTS</span>
           <h2>精選手串</h2>
-          <p>以下為展示商品，可將圖片區改成你的實拍照片，價格與材質也能自行調整。</p>
+          <p>以下為展示商品，圖片可使用 Imgur 直連網址，價格、名稱與材質都能依照實際商品調整。</p>
         </div>
 
         <div class="products-grid">
           <article class="product-card">
             <div class="product-image">
-              <div class="mini-bracelet"></div>
+              <img src="https://i.imgur.com/你的圖片代碼1.jpg" alt="暖棕木質手串照片" />
             </div>
             <div class="product-content">
               <h3>暖棕木質手串</h3>
@@ -669,7 +824,7 @@
 
           <article class="product-card">
             <div class="product-image">
-              <div class="mini-bracelet"></div>
+              <img src="https://i.imgur.com/你的圖片代碼2.jpg" alt="墨綠沉靜晶石手串照片" />
             </div>
             <div class="product-content">
               <h3>墨綠沉靜晶石手串</h3>
@@ -687,7 +842,7 @@
 
           <article class="product-card">
             <div class="product-image">
-              <div class="mini-bracelet"></div>
+              <img src="https://i.imgur.com/你的圖片代碼3.jpg" alt="奶茶米金手串照片" />
             </div>
             <div class="product-content">
               <h3>奶茶米金手串</h3>
@@ -795,5 +950,27 @@
       <p>© 2026 LumiStone 手作晶石. All Rights Reserved.</p>
     </div>
   </footer>
+  <script>
+    const mobileDrawer = document.getElementById("mobileDrawer");
+    const drawerOverlay = document.getElementById("drawerOverlay");
+
+    function openDrawer() {
+      mobileDrawer.classList.add("active");
+      drawerOverlay.classList.add("active");
+      document.body.classList.add("drawer-open");
+    }
+
+    function closeDrawer() {
+      mobileDrawer.classList.remove("active");
+      drawerOverlay.classList.remove("active");
+      document.body.classList.remove("drawer-open");
+    }
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape") {
+        closeDrawer();
+      }
+    });
+  </script>
 </body>
 </html>
