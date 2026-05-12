@@ -280,14 +280,25 @@
     .bracelet-display {
       min-height: 390px;
       border-radius: 28px;
-      background:
-        radial-gradient(circle at 50% 50%, transparent 27%, rgba(128, 71, 40, 0.18) 28%, rgba(128, 71, 40, 0.18) 38%, transparent 39%),
-        radial-gradient(circle at 45% 45%, #fff8ee, #f1d9c0);
+      background: #f4e3d1;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
+    }
+
+    .hero-product-img {
+      width: 100%;
+      height: 100%;
+      min-height: 390px;
+      object-fit: cover;
+      display: block;
+      transition: 0.25s;
+    }
+
+    .hero-card:hover .hero-product-img {
+      transform: scale(1.03);
     }
 
     .bead-ring {
@@ -664,7 +675,8 @@
         padding: 70px 0 60px;
       }
 
-      .bracelet-display {
+      .bracelet-display,
+      .hero-product-img {
         min-height: 320px;
       }
 
@@ -745,18 +757,7 @@
 
         <div class="hero-card">
           <div class="bracelet-display" aria-label="手作手串展示圖">
-            <div class="bead-ring">
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-              <span class="bead"></span>
-            </div>
+            <img class="hero-product-img" src="https://i.imgur.com/你的主視覺圖片代碼.jpg" alt="手作手串主視覺照片" />
             <div class="price-badge">新品上市<br />NT$ 680 起</div>
           </div>
         </div>
@@ -799,7 +800,7 @@
       <div class="container">
         <div class="section-title">
           <span>PRODUCTS</span>
-          <h2>本季精選手串</h2>
+          <h2>精選手串</h2>
           <p>以下為展示商品，圖片可使用 Imgur 直連網址，價格、名稱與材質都能依照實際商品調整。</p>
         </div>
 
